@@ -62,6 +62,10 @@ while igra:
 				quit()
 
 
+			if event.type == pygame.KEYDOWN:
+				if event.key == pygame.K_UP or event.key == pygame.K_SPACE or event.key == pygame.K_w:
+					#premikanje!!! - naslednic
+
 		screen.blit(ufo_image, ufo)
 		screen.blit(ice_cream_image, ice_cream)
 		screen.blit(lollipop_image, lollipop)
