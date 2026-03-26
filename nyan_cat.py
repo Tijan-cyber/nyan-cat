@@ -48,14 +48,7 @@ start_screen = True
 
 while igra:
 
-        for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                        igra = False
-
-        pygame.display.update()
         
-
-
         clock.tick(60)
         screen.blit(background, (0,0))
 
