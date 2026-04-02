@@ -59,9 +59,12 @@ clock = pygame.time.Clock()
 start_screen = True
 
 scroll = 0
-
+JUMPcount = 1
 speed = 0.2
-
+font2 = pygame.font.Font('freesansbold.ttf', 32)
+text = font.render(f'jumpi na  razpolago: {JUMPcount}', True, (88, 151, 252))
+textRect = text.get_rect()
+textRect.center = (X // 2, Y // 2)
 # to pove koliko jumpov ima na rzpolago
 obrat_zanke = 0
 JUMPcount = 1
@@ -100,8 +103,9 @@ while igra:
                 for event in pygame.event.get():
                         if event.type == pygame.QUIT:
                                 quit()
+                                
                 
-
+                
 
                         if event.type == pygame.KEYDOWN:
                                 if event.key == pygame.K_UP or event.key == pygame.K_SPACE or event.key == pygame.K_w:
@@ -110,7 +114,7 @@ while igra:
                                                 JUMPcount -= 1
 
 
-
+                screen.blit(font.render(f"Za začetek pritisni SPACE", True, (88, 151, 252)),(X//2-500,Y//2-100))
                 #print(f"jump count{JUMPcount}")
                 obrat_zanke += 1
                 #print(obrat_zanke)
@@ -122,20 +126,21 @@ while igra:
 
 
 
-		colliding = [podlaga for podlaga in platforme if cat.colliderect(podlaga)]
-		if len(colliding) > 0:
-			if (colliding[0].y - cat.y > 73) and speed > 0:
-				speed = 0
-		else:
-			speed += 0.01
-		cat.y += speed * time
-		ufo.x -= 1
-		ice_cream.x -= 1
-		lollipop.x -= 1
-		krof.x -= 1
-		milk.x -= 1
-		platforma1.x -= 1
-		platforma2.x -= 1
+                colliding = [podlaga for podlaga in platforme if cat.colliderect(podlaga)]
+                if len(colliding) > 0:
+                        if (colliding[0].y - cat.y > 73) and speed > 0:
+                                speed = 0
+                                JUMPcount = 2
+                else:
+                        speed += 0.01
+                cat.y += speed * time
+                ufo.x -= 1
+                ice_cream.x -= 1
+                lollipop.x -= 1
+                krof.x -= 1
+                milk.x -= 1
+                platforma1.x -= 1
+                platforma2.x -= 1
 
 
                 for i in range(3):
@@ -148,16 +153,16 @@ while igra:
                 if abs(scroll) > bg_width:
                         scroll = 0
 
-		screen.blit(ufo_image, ufo)
-		screen.blit(ice_cream_image, ice_cream)
-		screen.blit(lollipop_image, lollipop)
-		screen.blit(krof_image, krof)
-		screen.blit(milk_image, milk)
-		screen.blit(cat_image, cat)
-		screen.blit(hotdog_image, platforma1)
-		screen.blit(hotdog_image, platforma2)
+                screen.blit(ufo_image, ufo)
+                screen.blit(ice_cream_image, ice_cream)
+                screen.blit(lollipop_image, lollipop)
+                screen.blit(krof_image, krof)
+                screen.blit(milk_image, milk)
+                screen.blit(cat_image, cat)
+                screen.blit(hotdog_image, platforma1)
+                screen.blit(hotdog_image, platforma2)
 
-
+                screen.blit(font2.render(f"jumpi na razpolago: {JUMPcount}", True, (88, 151, 252)),(X//8,Y//8))
 
 
                 pygame.display.flip()
