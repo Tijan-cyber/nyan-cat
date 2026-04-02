@@ -8,6 +8,7 @@ Y = 1126
 screen = pygame.display.set_mode((X,Y))
 pygame.mouse.set_visible(0)
 pygame.display.set_caption("Nyan cat")
+#158x78
 background = pygame.image.load("./background.jpg").convert()
 bg_width = background.get_width()
 
@@ -36,7 +37,7 @@ ufo_image = pygame.transform.scale(ufo_image, (100, 100))
 
 
 hotdog_image = pygame.image.load("./hotdog.png")
-#hotdog 317x159
+#hotdog 
 
 cat = pygame.Rect(0, Y//2, 158, 78)
 ice_cream = pygame.Rect(1900, random.randint(100, 1100), 20, 20)
@@ -47,8 +48,8 @@ milk = pygame.Rect(1900, random.randint(100, 1100), 20, 20)
 font = pygame.font.Font('freesansbold.ttf', 80)
 
 
-platforma1 = pygame.Rect(random.randint(0, 1100), random.randint(100, 500), 317, 159)
-platforma2 = pygame.Rect(random.randint(0, 1100), random.randint(600, 1100), 317, 159)
+platforma1 = pygame.Rect(random.randint(0, 1100), random.randint(100, 500), 259, 72)
+platforma2 = pygame.Rect(random.randint(0, 1100), random.randint(600, 1100), 259, 72)
 #platforma3 =
 #platforma4 = 
 
@@ -62,6 +63,13 @@ scroll = 0
 
 speed = 0.2
 
+#TODO
+"""
+odboj od platforme od spodaj (ce je hitrost gor in ce je collide in ce je to na praven y) -> speed na nekaj majhno negativnega
+double jump implementacija (reset ko je na platformi)
+hitrejse premikanje elementov
+platforme naj so naključne ampak ne preveč skupaj
+"""
 
 while igra:
 	clock.tick(60)
@@ -73,10 +81,8 @@ while igra:
 
 	screen.blit(font.render(f"Za začetek pritisni SPACE", True, (88, 151, 252)),(X//2-500,Y//2-100))
 
- #Samo za testiranje da ni  start screena
-
-
-	while not start_screen: #igranje
+	#igranje
+	while not start_screen:
 		time = clock.tick(60)
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
@@ -91,19 +97,28 @@ while igra:
 
 
 		colliding = [podlaga for podlaga in platforme if cat.colliderect(podlaga)]
+		#print(colliding)
+		
 		if len(colliding) > 0:
-			if (colliding[0].y - cat.y > 73) and speed > 0:
+			a = colliding[0].y - cat.y
+			print(f"razlika {colliding[0].y - cat.y}")
+			if (a < 78 and a > 0) and speed > 0:
 				speed = 0
+				print("dotik gor")
+			elif (a < -60) and speed < 0:
+				speed *= -1
+				print("dotik")
+
 		else:
 			speed += 0.01
 		cat.y += speed * time
-		ufo.x -= 1
-		ice_cream.x -= 1
-		lollipop.x -= 1
-		krof.x -= 1
-		milk.x -= 1
-		platforma1.x -= 1
-		platforma2.x -= 1
+		ufo.x -= 2
+		ice_cream.x -= 2
+		lollipop.x -= 2
+		krof.x -= 2
+		milk.x -= 2
+		platforma1.x -= 2
+		platforma2.x -= 2
 
 		for i in range(3):
 			screen.blit(background, (i * bg_width + scroll,0))
