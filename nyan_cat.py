@@ -3,11 +3,12 @@ import random
 
 pygame.init()
 clock = pygame.time.Clock()
-X = 1000
-Y = 500
+X = 1800
+Y = 1126
 screen = pygame.display.set_mode((X,Y))
 pygame.mouse.set_visible(0)
 pygame.display.set_caption("Nyan cat")
+#158x78
 background = pygame.image.load("./background.jpg").convert()
 bg_width = background.get_width()
 
@@ -36,7 +37,7 @@ ufo_image = pygame.transform.scale(ufo_image, (100, 100))
 
 
 hotdog_image = pygame.image.load("./hotdog.png")
-#hotdog 317x159
+#hotdog 
 
 cat = pygame.Rect(0, Y//2, 158, 78)
 ice_cream = pygame.Rect(1900, random.randint(100, 1100), 20, 20)
@@ -47,13 +48,12 @@ milk = pygame.Rect(1900, random.randint(100, 1100), 20, 20)
 font = pygame.font.Font('freesansbold.ttf', 80)
 
 
-platforma1 = pygame.Rect(random.randint(0, 1100), random.randint(100, 500), 317, 159)
-platforma2 = pygame.Rect(random.randint(0, 1100), random.randint(600, 1100), 317, 159)
+platforma1 = pygame.Rect(random.randint(0, 1100), random.randint(100, 500), 259, 72)
+platforma2 = pygame.Rect(random.randint(0, 1100), random.randint(600, 1100), 259, 72)
 #platforma3 =
 #platforma4 = 
 
 platforme = [platforma1, platforma2]
-
 clock = pygame.time.Clock()
 
 start_screen = True
@@ -61,78 +61,61 @@ start_screen = True
 scroll = 0
 JUMPcount = 1
 speed = 0.2
+
 font2 = pygame.font.Font('freesansbold.ttf', 32)
-text = font.render(f'jumpi na  razpolago: {JUMPcount}', True, (88, 151, 252))
-textRect = text.get_rect()
-textRect.center = (X // 2, Y // 2)
+
+
+#TODO
+"""
+double jump implementacija (reset ko je na platformi)
+hitrejse premikanje elementov
+platforme naj so naključne ampak ne preveč skupaj
+"""
+
 # to pove koliko jumpov ima na rzpolago
-obrat_zanke = 0
-JUMPcount = 1
+JUMPcount = 5
 
 
 while igra:
-        print(f"jump count{JUMPcount}")
-        obrat_zanke += 1
-        print(obrat_zanke)
-        if obrat_zanke == 2:
-                print("yay(reset na 2 jumpa)")
-                obrat_zanke=0
-                JUMPcount = 2
-        
+    clock.tick(60)
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            igra = False
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:  #Začetek igre
+            start_screen = False
+
+    screen.blit(font.render(f"Za začetek pritisni SPACE", True, (88, 151, 252)),(X//2-500,Y//2-100))
 
 
 
 
-
-
-        
-        clock.tick(60)
+    while not start_screen: #igranje
+        time = clock.tick(60)
         for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                        igra = False
-                if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:  #Začetek igre
-                        start_screen = False
-
-        screen.blit(font.render(f"Za začetek pritisni SPACE", True, (88, 151, 252)),(X//2-500,Y//2-100))
-
- #Samo za testiranje da ni  start screena
-
-
-        while not start_screen: #igranje
-                time = clock.tick(60)
-                for event in pygame.event.get():
-                        if event.type == pygame.QUIT:
-                                quit()
+            if event.type == pygame.QUIT:
+                quit()
                                 
                 
                 
 
-                        if event.type == pygame.KEYDOWN:
-                                if event.key == pygame.K_UP or event.key == pygame.K_SPACE or event.key == pygame.K_w:
-                                        if JUMPcount > 0:
-                                                speed = -0.5
-                                                JUMPcount -= 1
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_UP or event.key == pygame.K_SPACE or event.key == pygame.K_w:
+                    if JUMPcount > 0:
+                        speed = -0.5
+                        JUMPcount -= 1
 
 
-                screen.blit(font.render(f"Za začetek pritisni SPACE", True, (88, 151, 252)),(X//2-500,Y//2-100))
-                #print(f"jump count{JUMPcount}")
-                obrat_zanke += 1
-                #print(obrat_zanke)
-                if obrat_zanke == 180:
-                        print("yay(reset na 2 jumpa)")
-                        obrat_zanke=0
-                        JUMPcount = 2
+                
 
 
 
-
-                colliding = [podlaga for podlaga in platforme if cat.colliderect(podlaga)]
-                if len(colliding) > 0:
-                        if (colliding[0].y - cat.y > 73) and speed > 0:
-                                speed = 0
-                                JUMPcount = 2
-                else:
-                        speed += 0.01
+        colliding = [podlaga for podlaga in platforme if cat.colliderect(podlaga)]
+        if len(colliding) > 0:
+            if (colliding[0].y - cat.y > 73) and speed > 0:
+                speed = 0
+                JUMPcount = 2
+            else:
+                speed += 0.01
                 cat.y += speed * time
                 ufo.x -= 1
                 ice_cream.x -= 1
@@ -143,32 +126,62 @@ while igra:
                 platforma2.x -= 1
 
 
-                for i in range(3):
-                        screen.blit(background, (i * bg_width + scroll,0))
 
-		#scroll background
-                scroll -= 5
-
-		#reset scroll
-                if abs(scroll) > bg_width:
-                        scroll = 0
-
-                screen.blit(ufo_image, ufo)
-                screen.blit(ice_cream_image, ice_cream)
-                screen.blit(lollipop_image, lollipop)
-                screen.blit(krof_image, krof)
-                screen.blit(milk_image, milk)
-                screen.blit(cat_image, cat)
-                screen.blit(hotdog_image, platforma1)
-                screen.blit(hotdog_image, platforma2)
-
-                screen.blit(font2.render(f"jumpi na razpolago: {JUMPcount}", True, (88, 151, 252)),(X//8,Y//8))
+        #Pove ce se cat dotika platform
+        colliding = [podlaga for podlaga in platforme if cat.colliderect(podlaga)]
+        if len(colliding) > 0:
+            a = colliding[0].y - cat.y
+            #Da ostane na platformi
+            if (a < 78 and a > 0) and speed > 0:
+                #reset jumpov
+                JUMPcount = 10
+                speed = 0
+            #Da se odbije od spodaj od platforme
+            elif (a < -60) and speed < 0:
+                speed *= -1
 
 
-                pygame.display.flip()
+        #premikanje elementov levo po zaslonu
+        
+        speed += 0.01
+        cat.y += speed * time
+        ufo.x -= 2
+        ice_cream.x -= 2
+        lollipop.x -= 2
+        krof.x -= 2
+        milk.x -= 2
+        platforma1.x -= 4
+        platforma2.x -= 4
+
+
+        for i in range(3):
+            screen.blit(background, (i * bg_width + scroll,0))
+
+        #scroll background
+        scroll -= 5
+
+        #reset scroll
+        if abs(scroll) > bg_width:
+            scroll = 0
+
+        screen.blit(ufo_image, ufo)
+        screen.blit(ice_cream_image, ice_cream)
+        screen.blit(lollipop_image, lollipop)
+        screen.blit(krof_image, krof)
+        screen.blit(milk_image, milk)
+        screen.blit(cat_image, cat)
+        screen.blit(hotdog_image, platforma1)
+        screen.blit(hotdog_image, platforma2)
+
+
+        screen.blit(font2.render(f"jumpi na razpolago: {JUMPcount}", True, (88, 151, 252)),(X//8,Y//8))
+
+
 
         pygame.display.flip()
-        screen.blit(background, (0,0))
+
+    pygame.display.flip()
+    screen.blit(background, (0,0))
 
 
 
