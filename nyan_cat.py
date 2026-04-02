@@ -27,12 +27,16 @@ lollipop_image = pygame.transform.scale(lollipop_image, (100, 100))
 krof_image = pygame.image.load("./krof.png")
 krof_image = pygame.transform.scale(krof_image, (100, 100))
 
-milk_image = pygame.image.load("./milk.jpeg")
+milk_image = pygame.image.load("./milk.png")
 milk_image = pygame.transform.scale(milk_image, (100, 100))
 
 ufo_image = pygame.image.load("./ufo.png")
 ufo_image = pygame.transform.scale(ufo_image, (100, 100))
 
+
+
+hotdog_image = pygame.image.load("./hotdog.png")
+#hotdog 317x159
 
 cat = pygame.Rect(0, Y//2, 158, 78)
 ice_cream = pygame.Rect(1900, random.randint(100, 1100), 20, 20)
@@ -41,6 +45,14 @@ lollipop = pygame.Rect(1900, random.randint(100, 1100), 20, 20)
 krof = pygame.Rect(1900, random.randint(100, 1100), 20, 20)
 milk = pygame.Rect(1900, random.randint(100, 1100), 20, 20)
 font = pygame.font.Font('freesansbold.ttf', 80)
+
+
+platforma1 = pygame.Rect(random.randint(0, 1100), random.randint(100, 500), 317, 159)
+platforma2 = pygame.Rect(random.randint(0, 1100), random.randint(600, 1100), 317, 159)
+#platforma3 =
+#platforma4 = 
+
+platforme = [platforma1, platforma2]
 
 clock = pygame.time.Clock()
 
@@ -108,13 +120,23 @@ while igra:
                         JUMPcount = 2
 
 
-                speed += 0.01
-                cat.y += speed * time
-                ufo.x -= 1
-                ice_cream.x -= 1
-                lollipop.x -= 1
-                krof.x -= 1
-                milk.x -= 1
+
+
+		colliding = [podlaga for podlaga in platforme if cat.colliderect(podlaga)]
+		if len(colliding) > 0:
+			if (colliding[0].y - cat.y > 73) and speed > 0:
+				speed = 0
+		else:
+			speed += 0.01
+		cat.y += speed * time
+		ufo.x -= 1
+		ice_cream.x -= 1
+		lollipop.x -= 1
+		krof.x -= 1
+		milk.x -= 1
+		platforma1.x -= 1
+		platforma2.x -= 1
+
 
                 for i in range(3):
                         screen.blit(background, (i * bg_width + scroll,0))
@@ -126,12 +148,16 @@ while igra:
                 if abs(scroll) > bg_width:
                         scroll = 0
 
-                screen.blit(ufo_image, ufo)
-                screen.blit(ice_cream_image, ice_cream)
-                screen.blit(lollipop_image, lollipop)
-                screen.blit(krof_image, krof)
-                screen.blit(milk_image, milk)
-                screen.blit(cat_image, cat)
+		screen.blit(ufo_image, ufo)
+		screen.blit(ice_cream_image, ice_cream)
+		screen.blit(lollipop_image, lollipop)
+		screen.blit(krof_image, krof)
+		screen.blit(milk_image, milk)
+		screen.blit(cat_image, cat)
+		screen.blit(hotdog_image, platforma1)
+		screen.blit(hotdog_image, platforma2)
+
+
 
 
                 pygame.display.flip()
