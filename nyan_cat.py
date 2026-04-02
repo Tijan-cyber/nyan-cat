@@ -1,7 +1,7 @@
 import pygame
 import random
 import time as tim
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!PUSH!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 pygame.init()
 clock = pygame.time.Clock()
 #NASTAVI NA TOK KOKR MAS SCREEN - ostali elementi se prilagajajo glede na to  OK 
