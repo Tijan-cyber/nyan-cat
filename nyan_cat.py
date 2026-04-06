@@ -71,7 +71,7 @@ hitrejse premikanje elementov
 platforme naj so naključne ampak ne preveč skupaj
 """
 # to pove koliko jumpov ima na rzpolago
-JUMPcount = 100
+JUMPcount = 5
 
 
 while igra:
@@ -111,7 +111,7 @@ while igra:
             #Da ostane na platformi
             if (a < 78 and a > 0) and speed > 0:
                 #reset jumpov
-                JUMPcount = 100
+                JUMPcount = 5
                 speed = 0
             #Da se odbije od spodaj od platforme
             elif (a < -60) and speed < 0:
