@@ -1,6 +1,6 @@
 import pygame
 import random
-
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!PUSH!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 pygame.init()
 clock = pygame.time.Clock()
 #NASTAVI NA TOK KOKR MAS SCREEN - ostali elementi se prilagajajo glede na to
@@ -47,7 +47,7 @@ lollipop = pygame.Rect(1900, random.randint(100, Y), 20, 20)
 krof = pygame.Rect(1900, random.randint(100, Y), 20, 20)
 milk = pygame.Rect(1900, random.randint(100, Y), 20, 20)
 font = pygame.font.Font('freesansbold.ttf', 80)
-
+liki = [ice_cream, ufo, lollipop, krof, milk]
 
 platforma1 = pygame.Rect(random.randint(0, X), random.randint(100, Y), 259, 72)
 platforma2 = pygame.Rect(random.randint(0, X), random.randint(300, Y), 259, 72)
@@ -63,6 +63,7 @@ scroll = 0
 
 speed = 0.2
 
+score = 0
 #TODO
 """
 double jump implementacija (reset ko je na platformi)
@@ -70,7 +71,7 @@ hitrejse premikanje elementov
 platforme naj so naključne ampak ne preveč skupaj
 """
 # to pove koliko jumpov ima na rzpolago
-JUMPcount = 5
+JUMPcount = 100
 
 
 while igra:
@@ -110,23 +111,28 @@ while igra:
             #Da ostane na platformi
             if (a < 78 and a > 0) and speed > 0:
                 #reset jumpov
-                JUMPcount = 10
+                JUMPcount = 100
                 speed = 0
             #Da se odbije od spodaj od platforme
             elif (a < -60) and speed < 0:
                 speed *= -1
 
         #premikanje elementov levo po zaslonu
-        
-        speed += 0.01
+        else:
+            speed += 0.01
         cat.y += speed * time
-        ufo.x -= 2
-        ice_cream.x -= 2
-        lollipop.x -= 2
-        krof.x -= 2
-        milk.x -= 2
-        platforma1.x -= 4
-        platforma2.x -= 4
+
+
+        for x in liki:
+            #Če gre lik izven zaslona
+            if x.x < -50:
+                x.x = 2000
+                x.y = random.randint(50,Y-50)
+            #premikanje likov v levo
+            x.x -= 4
+
+        platforma1.x -= 4.1
+        platforma2.x -= 4.6
 
 
         for i in range(3):
@@ -139,6 +145,18 @@ while igra:
         if abs(scroll) > bg_width:
             scroll = 0
 
+
+        #Če cat poje lik
+        dotiki_likov = [lik for lik in liki if cat.colliderect(lik)]
+        if len(dotiki_likov) > 0:
+            score += len(dotiki_likov)
+            print(dotiki_likov)
+            for x in dotiki_likov:
+                x.x = 2000
+                x.y = random.randint(50,Y-50)
+
+
+
         screen.blit(ufo_image, ufo)
         screen.blit(ice_cream_image, ice_cream)
         screen.blit(lollipop_image, lollipop)
@@ -147,6 +165,7 @@ while igra:
         screen.blit(cat_image, cat)
         screen.blit(hotdog_image, platforma1)
         screen.blit(hotdog_image, platforma2)
+        screen.blit(font.render(f"Score: {score}", True, (88, 151, 252)),(X-(X//5),50))
 
 
 
