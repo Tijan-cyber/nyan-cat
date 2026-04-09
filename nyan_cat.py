@@ -8,7 +8,6 @@ Y = 1126
 screen = pygame.display.set_mode((X,Y))
 pygame.mouse.set_visible(0)
 pygame.display.set_caption("Nyan cat")
-#158x78
 background = pygame.image.load("./background.jpg").convert()
 bg_width = background.get_width()
 
@@ -175,6 +174,8 @@ while igra:
 
         if platforma1.x < 0:
             platforma1.x += X
+        if platforma2.x < 0:
+            platforma2.x += X
         screen.blit(font2.render(f"jumpi na razpolago: {JUMPcount}", True, (88, 151, 252)),(X//8,Y//8))
 
 
