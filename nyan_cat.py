@@ -3,7 +3,6 @@ import random
 
 pygame.init()
 clock = pygame.time.Clock()
-#NASTAVI NA TOK KOKR MAS SCREEN - ostali elementi se prilagajajo glede na to
 X = 1800
 Y = 1126
 screen = pygame.display.set_mode((X,Y))
@@ -41,16 +40,16 @@ hotdog_image = pygame.image.load("./hotdog.png")
 #hotdog 
 
 cat = pygame.Rect(0, Y//2, 158, 78)
-ice_cream = pygame.Rect(1900, random.randint(100, Y), 20, 20)
-ufo = pygame.Rect(1900, random.randint(100, Y), 20, 20)
-lollipop = pygame.Rect(1900, random.randint(100, Y), 20, 20)
-krof = pygame.Rect(1900, random.randint(100, Y), 20, 20)
-milk = pygame.Rect(1900, random.randint(100, Y), 20, 20)
+ice_cream = pygame.Rect(1900, random.randint(100, 1100), 20, 20)
+ufo = pygame.Rect(1900, random.randint(100, 1100), 20, 20)
+lollipop = pygame.Rect(1900, random.randint(100, 1100), 20, 20)
+krof = pygame.Rect(1900, random.randint(100, 1100), 20, 20)
+milk = pygame.Rect(1900, random.randint(100, 1100), 20, 20)
 font = pygame.font.Font('freesansbold.ttf', 80)
 
 
-platforma1 = pygame.Rect(random.randint(0, X), random.randint(100, Y), 259, 72)
-platforma2 = pygame.Rect(random.randint(0, X), random.randint(300, Y), 259, 72)
+platforma1 = pygame.Rect(random.randint(0, 1100), random.randint(100, 500), 259, 72)
+platforma2 = pygame.Rect(random.randint(0, 1100), random.randint(600, 1100), 259, 72)
 #platforma3 =
 #platforma4 = 
 
@@ -174,7 +173,8 @@ while igra:
         screen.blit(hotdog_image, platforma1)
         screen.blit(hotdog_image, platforma2)
 
-
+        if platforma1.x < 0:
+            platforma1.x += X
         screen.blit(font2.render(f"jumpi na razpolago: {JUMPcount}", True, (88, 151, 252)),(X//8,Y//8))
 
 
